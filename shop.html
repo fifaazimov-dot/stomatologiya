@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="uz" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do'kon - DentLux Stomatologiya</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { 50: '#eef2ff', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca' }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 transition-colors duration-300">
+
+    <!-- HEADER / NAVBAR -->
+    <header class="sticky top-0 z-50 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-brand-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-brand-500/30">
+                    <i class="fa-solid fa-tooth"></i>
+                </div>
+                <span class="text-xl font-bold bg-gradient-to-r from-brand-600 to-indigo-500 bg-clip-text text-transparent">DentLux</span>
+            </a>
+
+            <nav class="hidden md:flex items-center gap-8 font-medium">
+                <a href="index.html" class="hover:text-brand-600 dark:hover:text-brand-400 transition" data-i18n="nav_home">Bosh sahifa</a>
+                <a href="services.html" class="hover:text-brand-600 dark:hover:text-brand-400 transition" data-i18n="nav_services">Xizmatlar</a>
+                <a href="shop.html" class="text-brand-600 dark:text-brand-400" data-i18n="nav_shop">Do'kon</a>
+                <a href="contact.html" class="hover:text-brand-600 dark:hover:text-brand-400 transition" data-i18n="nav_contact">Aloqa</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <select id="langSwitch" class="bg-slate-100 dark:bg-slate-700 text-sm font-medium px-3 py-1.5 rounded-lg border-none focus:ring-2 focus:ring-brand-500 outline-none cursor-pointer">
+                    <option value="uz">UZ</option>
+                    <option value="ru">RU</option>
+                    <option value="en">EN</option>
+                </select>
+
+                <button id="themeToggle" class="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-700 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-600 transition">
+                    <i class="fa-solid fa-moon dark:hidden text-slate-700"></i>
+                    <i class="fa-solid fa-sun hidden dark:block text-amber-400"></i>
+                </button>
+
+                <a href="cart.html" class="relative w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-700 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-600 transition">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="cartBadge" class="absolute -top-1 -right-1 bg-brand-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold hidden">0</span>
+                </a>
+
+                <button id="mobileMenuBtn" class="md:hidden text-2xl">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobileMenu" class="hidden md:hidden px-4 pt-2 pb-4 border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+            <a href="index.html" class="block py-2 font-medium" data-i18n="nav_home">Bosh sahifa</a>
+            <a href="services.html" class="block py-2 font-medium" data-i18n="nav_services">Xizmatlar</a>
+            <a href="shop.html" class="block py-2 text-brand-600 font-medium" data-i18n="nav_shop">Do'kon</a>
+            <a href="contact.html" class="block py-2 font-medium" data-i18n="nav_contact">Aloqa</a>
+        </div>
+    </header>
+
+    <!-- SHOP SECTION -->
+    <section class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6 mb-10">
+            <div>
+                <h1 class="text-3xl font-extrabold tracking-tight mb-2" data-i18n="shop_title">Stomatologik Mahsulotlar</h1>
+                <p class="text-slate-600 dark:text-slate-400 text-sm" data-i18n="shop_desc">Sifatli tish pastalari, cho'tkalar va parvarish vositalari.</p>
+            </div>
+            <!-- Search Bar -->
+            <div class="w-full md:w-80 relative">
+                <i class="fa-solid fa-search absolute left-4 top-3.5 text-slate-400"></i>
+                <input type="text" id="searchInput" placeholder="Mahsulotlarni qidirish..." class="w-full pl-11 pr-4 py-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm shadow-sm">
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Dynamic products will be rendered via JS -->
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 py-8 mt-20">
+        <div class="max-w-7xl mx-auto px-4 text-center text-sm text-slate-500 dark:text-slate-400">
+            &copy; 2026 DentLux Stomatologiya. Barcha huquqlar himoyalangan.
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        const translations = {
+            uz: {
+                nav_home: "Bosh sahifa",
+                nav_services: "Xizmatlar",
+                nav_shop: "Do'kon",
+                nav_contact: "Aloqa",
+                shop_title: "Stomatologik Mahsulotlar",
+                shop_desc: "Sifatli tish pastalari, cho'tkalar va parvarish vositalari.",
+                add_to_cart: "Savatga qo'shish"
+            },
+            ru: {
+                nav_home: "Главная",
+                nav_services: "Услуги",
+                nav_shop: "Магазин",
+                nav_contact: "Контакты",
+                shop_title: "Стоматологические товары",
+                shop_desc: "Качественные зубные пасты, щетки и средства по уходу.",
+                add_to_cart: "В корзину"
+            },
+            en: {
+                nav_home: "Home",
+                nav_services: "Services",
+                nav_shop: "Shop",
+                nav_contact: "Contact",
+                shop_title: "Dental Products",
+                shop_desc: "High quality toothpastes, toothbrushes and care products.",
+                add_to_cart: "Add to cart"
+            }
+        };
+
+        const products = [
+            { id: 1, name: "Oral-B Elektr tish cho'tkasi", price: 350000, img: "https://images.unsplash.com/photo-1559595855-704fda215bed?auto=format&fit=crop&w=500&q=80" },
+            { id: 2, name: "Sensodyne Tish pastasi", price: 45000, img: "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=500&q=80" },
+            { id: 3, name: "Waterpik Irrigator", price: 650000, img: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=500&q=80" },
+            { id: 4, name: "Curaprox Tish cho'tkasi", price: 60000, img: "https://images.unsplash.com/photo-1607613009820-a29f7bb81c04?auto=format&fit=crop&w=500&q=80" },
+            { id: 5, name: "Colgate Plax Oqartiruvchi", price: 35000, img: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?auto=format&fit=crop&w=500&q=80" },
+            { id: 6, name: "Dental Ip (Floss) Oral-B", price: 25000, img: "https://images.unsplash.com/photo-1628177142898-93e36e4e3a50?auto=format&fit=crop&w=500&q=80" }
+        ];
+
+        const langSwitch = document.getElementById('langSwitch');
+        const themeToggle = document.getElementById('themeToggle');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const cartBadge = document.getElementById('cartBadge');
+        const searchInput = document.getElementById('searchInput');
+        const productsGrid = document.getElementById('productsGrid');
+
+        function setLanguage(lang) {
+            localStorage.setItem('dent_lang', lang);
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+            renderProducts(searchInput.value);
+        }
+
+        langSwitch.addEventListener('change', (e) => setLanguage(e.target.value));
+
+        const savedLang = localStorage.getItem('dent_lang') || 'uz';
+        langSwitch.value = savedLang;
+        setLanguage(savedLang);
+
+        const savedTheme = localStorage.getItem('dent_theme') || 'light';
+        if (savedTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('dent_theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('dent_theme', 'dark');
+            }
+        });
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Render Products with Search & Favorites & Cart
+        function renderProducts(filter = '') {
+            const currentLang = localStorage.getItem('dent_lang') || 'uz';
+            const cartText = translations[currentLang].add_to_cart;
+            const favorites = JSON.parse(localStorage.getItem('dent_favorites')) || [];
+
+            const filtered = products.filter(p => p.name.toLowerCase().includes(filter.toLowerCase()));
+            
+            if (filtered.length === 0) {
+                productsGrid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500">Mahsulot topilmadi</div>`;
+                return;
+            }
+
+            productsGrid.innerHTML = filtered.map(p => {
+                const isFav = favorites.includes(p.id);
+                return `
+                    <div class="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition flex flex-col justify-between relative group">
+                        <!-- Favorite Button -->
+                        <button onclick="toggleFavorite(${p.id})" class="absolute top-3 right-3 w-10 h-10 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-md flex items-center justify-center text-lg shadow hover:scale-110 transition z-10 ${isFav ? 'text-rose-500' : 'text-slate-400'}">
+                            <i class="${isFav ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
+                        </button>
+                        
+                        <div class="h-48 overflow-hidden bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
+                            <img src="${p.img}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        </div>
+
+                        <div class="p-5 flex flex-col flex-grow justify-between">
+                            <div>
+                                <h3 class="font-bold text-lg mb-1">${p.name}</h3>
+                                <p class="text-brand-600 dark:text-brand-400 font-extrabold text-lg mb-4">${p.price.toLocaleString()} so'm</p>
+                            </div>
+                            <button onclick="addToCart(${p.id})" class="w-full py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold transition text-sm flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-cart-plus"></i> ${cartText}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            renderProducts(e.target.value);
+        });
+
+        // Toggle Favorite
+        function toggleFavorite(id) {
+            let favorites = JSON.parse(localStorage.getItem('dent_favorites')) || [];
+            if (favorites.includes(id)) {
+                favorites = favorites.filter(favId => favId !== id);
+            } else {
+                favorites.push(id);
+            }
+            localStorage.setItem('dent_favorites', JSON.stringify(favorites));
+            renderProducts(searchInput.value);
+        }
+
+        // Add to Cart
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            let cart = JSON.parse(localStorage.getItem('dent_cart')) || [];
+            const existing = cart.find(item => item.id === id);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+            localStorage.setItem('dent_cart', JSON.stringify(cart));
+            updateCartCount();
+            alert("Mahsulot savatga qo'shildi!");
+        }
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('dent_cart')) || [];
+            const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+            if (totalCount > 0) {
+                cartBadge.textContent = totalCount;
+                cartBadge.classList.remove('hidden');
+            } else {
+                cartBadge.classList.add('hidden');
+            }
+        }
+        updateCartCount();
+        renderProducts();
+    </script>
+</body>
+</html>

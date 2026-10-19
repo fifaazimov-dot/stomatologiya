@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="uz" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savat - DentLux Stomatologiya</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { 50: '#eef2ff', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca' }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 transition-colors duration-300">
+
+    <!-- HEADER / NAVBAR -->
+    <header class="sticky top-0 z-50 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-brand-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-brand-500/30">
+                    <i class="fa-solid fa-tooth"></i>
+                </div>
+                <span class="text-xl font-bold bg-gradient-to-r from-brand-600 to-indigo-500 bg-clip-text text-transparent">DentLux</span>
+            </a>
+
+            <nav class="hidden md:flex items-center gap-8 font-medium">
+                <a href="index.html" class="hover:text-brand-600 dark:hover:text-brand-400 transition" data-i18n="nav_home">Bosh sahifa</a>
+                <a href="services.html" class="hover:text-brand-600 dark:hover:text-brand-400 transition" data-i18n="nav_services">Xizmatlar</a>
+                <a href="shop.html" class="hover:text-brand-600 dark:hover:text-brand-400 transition" data-i18n="nav_shop">Do'kon</a>
+                <a href="contact.html" class="hover:text-brand-600 dark:hover:text-brand-400 transition" data-i18n="nav_contact">Aloqa</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <select id="langSwitch" class="bg-slate-100 dark:bg-slate-700 text-sm font-medium px-3 py-1.5 rounded-lg border-none focus:ring-2 focus:ring-brand-500 outline-none cursor-pointer">
+                    <option value="uz">UZ</option>
+                    <option value="ru">RU</option>
+                    <option value="en">EN</option>
+                </select>
+
+                <button id="themeToggle" class="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-700 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-600 transition">
+                    <i class="fa-solid fa-moon dark:hidden text-slate-700"></i>
+                    <i class="fa-solid fa-sun hidden dark:block text-amber-400"></i>
+                </button>
+
+                <a href="cart.html" class="relative w-10 h-10 rounded-lg bg-brand-600 text-white flex items-center justify-center shadow-lg shadow-brand-500/30">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="cartBadge" class="absolute -top-1 -right-1 bg-rose-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold hidden">0</span>
+                </a>
+
+                <button id="mobileMenuBtn" class="md:hidden text-2xl">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobileMenu" class="hidden md:hidden px-4 pt-2 pb-4 border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+            <a href="index.html" class="block py-2 font-medium" data-i18n="nav_home">Bosh sahifa</a>
+            <a href="services.html" class="block py-2 font-medium" data-i18n="nav_services">Xizmatlar</a>
+            <a href="shop.html" class="block py-2 font-medium" data-i18n="nav_shop">Do'kon</a>
+            <a href="contact.html" class="block py-2 font-medium" data-i18n="nav_contact">Aloqa</a>
+        </div>
+    </header>
+
+    <!-- CART SECTION -->
+    <section class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-extrabold tracking-tight mb-8" data-i18n="cart_title">Sizning savatingiz</h1>
+
+        <div id="cartContent" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Items List -->
+            <div id="cartItemsList" class="lg:col-span-2 space-y-4">
+                <!-- Rendered via JS -->
+            </div>
+
+            <!-- Order Summary & Form -->
+            <div id="orderSummaryBox" class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm h-fit space-y-6">
+                <h3 class="text-xl font-bold" data-i18n="summary_title">Buyurtma tafsilotlari</h3>
+                <div class="space-y-3 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-slate-500" data-i18n="total_items">Mahsulotlar soni:</span>
+                        <span id="summaryCount" class="font-semibold">0 ta</span>
+                    </div>
+                    <div class="flex justify-between text-base font-bold pt-3 border-t border-slate-100 dark:border-slate-700">
+                        <span data-i18n="total_price">Jami summa:</span>
+                        <span id="summaryTotal" class="text-brand-600 dark:text-brand-400">0 so'm</span>
+                    </div>
+                </div>
+
+                <!-- Checkout Form -->
+                <form id="orderForm" class="space-y-4 pt-4 border-t border-slate-100 dark:border-slate-700">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-slate-500 mb-1" data-i18n="form_name">Ismingiz</label>
+                        <input type="text" id="clientName" required placeholder="Masalan: Anvar" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-slate-500 mb-1" data-i18n="form_phone">Telefon raqamingiz</label>
+                        <input type="tel" id="clientPhone" required placeholder="+998 90 123 45 67" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm">
+                    </div>
+                    <button type="submit" id="submitOrderBtn" class="w-full py-4 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold transition text-center shadow-lg shadow-brand-500/30" data-i18n="btn_checkout">
+                        Buyurtma berish
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 py-8 mt-20">
+        <div class="max-w-7xl mx-auto px-4 text-center text-sm text-slate-500 dark:text-slate-400">
+            &copy; 2026 DentLux Stomatologiya. Barcha huquqlar himoyalangan.
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        const translations = {
+            uz: {
+                nav_home: "Bosh sahifa",
+                nav_services: "Xizmatlar",
+                nav_shop: "Do'kon",
+                nav_contact: "Aloqa",
+                cart_title: "Sizning savatingiz",
+                summary_title: "Buyurtma tafsilotlari",
+                total_items: "Mahsulotlar soni:",
+                total_price: "Jami summa:",
+                form_name: "Ismingiz",
+                form_phone: "Telefon raqamingiz",
+                btn_checkout: "Buyurtma berish",
+                empty_cart: "Savatingiz bo'sh",
+                back_to_shop: "Do'konga qaytish"
+            },
+            ru: {
+                nav_home: "Главная",
+                nav_services: "Услуги",
+                nav_shop: "Магазин",
+                nav_contact: "Контакты",
+                cart_title: "Ваша корзина",
+                summary_title: "Детали заказа",
+                total_items: "Количество товаров:",
+                total_price: "Итоговая сумма:",
+                form_name: "Ваше имя",
+                form_phone: "Номер телефона",
+                btn_checkout: "Оформить заказ",
+                empty_cart: "Ваша корзина пуста",
+                back_to_shop: "Вернуться в магазин"
+            },
+            en: {
+                nav_home: "Home",
+                nav_services: "Services",
+                nav_shop: "Shop",
+                nav_contact: "Contact",
+                cart_title: "Your Cart",
+                summary_title: "Order Summary",
+                total_items: "Total items:",
+                total_price: "Total price:",
+                form_name: "Your Name",
+                form_phone: "Phone Number",
+                btn_checkout: "Place Order",
+                empty_cart: "Your cart is empty",
+                back_to_shop: "Back to Shop"
+            }
+        };
+
+        const langSwitch = document.getElementById('langSwitch');
+        const themeToggle = document.getElementById('themeToggle');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const cartBadge = document.getElementById('cartBadge');
+        const cartItemsList = document.getElementById('cartItemsList');
+        const summaryCount = document.getElementById('summaryCount');
+        const summaryTotal = document.getElementById('summaryTotal');
+        const orderSummaryBox = document.getElementById('orderSummaryBox');
+        const orderForm = document.getElementById('orderForm');
+
+        function setLanguage(lang) {
+            localStorage.setItem('dent_lang', lang);
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+            renderCart();
+        }
+
+        langSwitch.addEventListener('change', (e) => setLanguage(e.target.value));
+
+        const savedLang = localStorage.getItem('dent_lang') || 'uz';
+        langSwitch.value = savedLang;
+        setLanguage(savedLang);
+
+        const savedTheme = localStorage.getItem('dent_theme') || 'light';
+        if (savedTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('dent_theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('dent_theme', 'dark');
+            }
+        });
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Render Cart Items
+        function renderCart() {
+            const currentLang = localStorage.getItem('dent_lang') || 'uz';
+            const cart = JSON.parse(localStorage.getItem('dent_cart')) || [];
+
+            if (cart.length === 0) {
+                cartItemsList.innerHTML = `
+                    <div class="bg-white dark:bg-slate-800 p-12 rounded-2xl text-center border border-slate-200 dark:border-slate-700 col-span-full">
+                        <div class="w-16 h-16 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto text-2xl text-slate-400 mb-4">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">${translations[currentLang].empty_cart}</h3>
+                        <a href="shop.html" class="inline-block mt-4 px-6 py-3 bg-brand-600 text-white font-semibold rounded-xl hover:bg-brand-700 transition">${translations[currentLang].back_to_shop}</a>
+                    </div>
+                `;
+                orderSummaryBox.classList.add('hidden');
+                updateCartCount();
+                return;
+            }
+
+            orderSummaryBox.classList.remove('hidden');
+
+            cartItemsList.innerHTML = cart.map(item => `
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 flex items-center justify-between gap-4 shadow-sm">
+                    <div class="flex items-center gap-4">
+                        <img src="${item.img}" alt="${item.name}" class="w-16 h-16 object-cover rounded-xl bg-slate-100">
+                        <div>
+                            <h4 class="font-bold text-base mb-1">${item.name}</h4>
+                            <p class="text-brand-600 dark:text-brand-400 font-semibold text-sm">${item.price.toLocaleString()} so'm</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="flex items-center border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden">
+                            <button onclick="changeQty(${item.id}, -1)" class="px-3 py-1.5 bg-slate-50 dark:bg-slate-700 hover:bg-slate-100 transition">-</button>
+                            <span class="px-4 text-sm font-semibold">${item.qty}</span>
+                            <button onclick="changeQty(${item.id}, 1)" class="px-3 py-1.5 bg-slate-50 dark:bg-slate-700 hover:bg-slate-100 transition">+</button>
+                        </div>
+                        <button onclick="removeItem(${item.id})" class="text-rose-500 hover:text-rose-700 p-2 transition">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            // Calculate Totals
+            const totalItemsCount = cart.reduce((sum, item) => sum + item.qty, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+            summaryCount.textContent = `${totalItemsCount} ta`;
+            summaryTotal.textContent = `${totalPrice.toLocaleString()} so'm`;
+            updateCartCount();
+        }
+
+        function changeQty(id, delta) {
+            let cart = JSON.parse(localStorage.getItem('dent_cart')) || [];
+            const item = cart.find(i => i.id === id);
+            if (item) {
+                item.qty += delta;
+                if (item.qty <= 0) {
+                    cart = cart.filter(i => i.id !== id);
+                }
+            }
+            localStorage.setItem('dent_cart', JSON.stringify(cart));
+            renderCart();
+        }
+
+        function removeItem(id) {
+            let cart = JSON.parse(localStorage.getItem('dent_cart')) || [];
+            cart = cart.filter(i => i.id !== id);
+            localStorage.setItem('dent_cart', JSON.stringify(cart));
+            renderCart();
+        }
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('dent_cart')) || [];
+            const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+            if (totalCount > 0) {
+                cartBadge.textContent = totalCount;
+                cartBadge.classList.remove('hidden');
+            } else {
+                cartBadge.classList.add('hidden');
+            }
+        }
+
+        // Send order to Telegram Bot
+        orderForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('clientName').value.trim();
+            const phone = document.getElementById('clientPhone').value.trim();
+            const cart = JSON.parse(localStorage.getItem('dent_cart')) || [];
+
+            if (cart.length === 0) return;
+
+            let message = `🛒 **Yangi buyurtma! (DentLux)**\n\n`;
+            message += `👤 **Ism:** ${name}\n`;
+            message += `📞 **Tel:** ${phone}\n\n`;
+            message += `📦 **Mahsulotlar:**\n`;
+
+            let total = 0;
+            cart.forEach((item, index) => {
+                const sum = item.price * item.qty;
+                total += sum;
+                message += `${index + 1}. ${item.name} x ${item.qty} = ${sum.toLocaleString()} so'm\n`;
+            });
+
+            message += `\n💰 **Jami summa:** ${total.toLocaleString()} so'm`;
+
+            const BOT_TOKEN = "8746272362:AAGuDaAxP0xZXv53B3RzP1JXr3OcsJv0BJU";
+            const CHAT_ID = "7881483007";
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: CHAT_ID,
+                        text: message,
+                        parse_mode: 'Markdown'
+                    })
+                });
+
+                if (response.ok) {
+                    alert("Buyurtmangiz muvaffaqiyatli yuborildi! Tez orada siz bilan bog'lanamiz.");
+                    localStorage.removeItem('dent_cart');
+                    window.location.href = "shop.html";
+                } else {
+                    alert("Xatolik yuz berdi. Iltimos qaytadan urinib ko'ring.");
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Internet aloqasini tekshiring.");
+            }
+        });
+
+        renderCart();
+    </script>
+</body>
+</html>
